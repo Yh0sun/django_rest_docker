@@ -1,0 +1,32 @@
+docker network create --driver bridge msanet
+
+---------------------
+mkdir -p /work/test3/db/conf
+mkdir -p /work/test3/db/data
+
+cat <<EOF | sudo tee /work/test3/db/conf/my.cnf
+[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server           = utf8mb4
+collation-server               = utf8mb4_unicode_ci
+EOF
+
+
+docker run --name mysql-svc -d --net msanet --net-alias=mysql-svc \
+-v /work/test3/db/conf:/conf.d/etc/mysql/conf.d \
+-e MYSQL_ROOT_PASSWORD='frodo5020!!' \
+-e MYSQL_DATABASE='django_db' \
+-e MYSQL_USER='python' \
+-e MYSQL_PASSWORD='python' \
+-e MYSQL_ROOT_HOST='%' \
+hifrodo/m-dev:django-mysql5.7_v1
+
+
+docker run --name mywas -d -p 8000:8000 --net msanet --net-alias=mywas hifrodo/m-dev:django-docker_v1 
+
