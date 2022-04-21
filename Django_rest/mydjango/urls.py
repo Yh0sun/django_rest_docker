@@ -20,9 +20,9 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('blog.urls')),
+    path('blog/', include('blog.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
-    #path('rest-auth/', include('rest_auth.urls'))
-    path('',lambda request: redirect('blog/', permanent=True)),
+    # path('rest-auth/', include('rest_auth.urls'))
+    path('', lambda request: redirect('blog/', permanent=True)),
 ]
