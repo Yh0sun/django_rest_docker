@@ -28,5 +28,7 @@ urlpatterns = [
 
     path('', include(router.urls)),
     #path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-    path('api/login/', views.login, name='login')
+    path('api/login/', views.login, name='login'),
+
+    path('regist/',views.register_user, name='register_user'),
 ]
